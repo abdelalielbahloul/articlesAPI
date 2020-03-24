@@ -17,16 +17,6 @@ class ArticleController extends Controller
         return Article::all();
     }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  *
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function create()
-    // {
-    //     //
-    // }
-
     /**
      * Store a newly created resource in storage.
      *
@@ -53,21 +43,10 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function show(Article $article)
+    public function show($id)
     {
-        //
+        return Article::find($id);
     }
-
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  *
-    //  * @param  \App\Article  $article
-    //  * @return \Illuminate\Http\Response
-    //  */
-    // public function edit(Article $article)
-    // {
-    //     //
-    // }
 
     /**
      * Update the specified resource in storage.
@@ -76,9 +55,16 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Article $article)
+    public function update(Request $request, $id)
     {
-        //
+        $article = Article::find($id);
+        $article->title = $request->title;
+        $article->content = $request->content;
+        $article->author = $request->author;
+        $article->visible = $request->visible;
+
+        $article->save();
+        return $article;
     }
 
     /**
@@ -87,8 +73,12 @@ class ArticleController extends Controller
      * @param  \App\Article  $article
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Article $article)
+    public function destroy($id)
     {
-        //
+        $article = Article::find($id);
+        $article->delete();
+        return response()->json([
+            "message" => "deleted successfuly"
+        ]);
     }
 }
