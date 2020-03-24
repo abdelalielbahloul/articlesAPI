@@ -35,7 +35,16 @@ class ArticleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $article = new Article();
+
+        $article->title = $request->title;
+        $article->content = $request->content;
+        $article->author = $request->author;
+        $article->visible = $request->visible;
+
+        $article->save();
+        return $article;
+
     }
 
     /**
